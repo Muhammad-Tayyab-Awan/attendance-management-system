@@ -75,11 +75,24 @@ async function register(credentials) {
   return data;
 }
 
+async function getData() {
+  const response = await fetch(`${api_url}/api/user/`, {
+    credentials: "include",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 const authApi = {
   login,
   verifyLogin,
   logout,
   register,
+  getData,
 };
 
 export default authApi;
