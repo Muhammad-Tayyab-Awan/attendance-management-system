@@ -23,8 +23,26 @@ async function login(credentials) {
   return data;
 }
 
+async function verifyLogin() {
+  const response = await fetch(`${api_url}/api/user/verify-login`, {
+    credentials: "include",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (!data.success) {
+    return false;
+  }
+  delete data.success;
+  data.status = true;
+  return data;
+}
+
 const authApi = {
   login,
+  verifyLogin,
 };
 
 export default authApi;
