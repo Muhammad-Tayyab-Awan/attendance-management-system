@@ -29,13 +29,16 @@ function ThemeToggle() {
   };
 
   return (
-    <Button size="xs" onClick={toggleTheme} className="w-fit">
+    <button
+      onClick={toggleTheme}
+      className="h-6 w-6 rounded-full bg-slate-950 p-1 focus-visible:outline-none dark:bg-slate-400"
+    >
       {theme === "light" ? (
-        <Icon icon="mingcute:sun-fill" fontSize="15px" />
+        <Icon icon="twemoji:sun" className="h-full w-full" />
       ) : (
-        <Icon icon="openmoji:crescent-moon" fontSize="15px" />
+        <Icon icon="openmoji:crescent-moon" className="h-full w-full" />
       )}
-    </Button>
+    </button>
   );
 }
 
