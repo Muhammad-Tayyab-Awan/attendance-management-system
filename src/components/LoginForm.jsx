@@ -49,18 +49,19 @@ export function LoginForm() {
 
   const submitCredentials = async (data) => {
     const response = await authApi.login(data);
-    if (!response.success) {
+    reset();
+    if (response.success) {
+      toast.success(response.msg);
+      setStatus(true);
+      navigate("/dashboard");
+    } else {
       toast.error(response.error);
     }
-    reset();
-    toast.success(response.msg);
-    setStatus(true);
-    navigate("/dashboard");
   };
 
   return (
     <form
-      className="flex max-w-md flex-col gap-4"
+      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950"
       onSubmit={handleSubmit(submitCredentials)}
       noValidate
     >
