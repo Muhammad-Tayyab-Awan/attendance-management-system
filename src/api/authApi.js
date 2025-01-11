@@ -40,9 +40,22 @@ async function verifyLogin() {
   return data;
 }
 
+async function logout() {
+  const response = await fetch(`${api_url}/api/user/logout`, {
+    credentials: "include",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 const authApi = {
   login,
   verifyLogin,
+  logout,
 };
 
 export default authApi;
