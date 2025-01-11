@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { NavBar } from "../components/Navbar";
 import { useRoleContext } from "../context/roleContext";
 import authApi from "../api/authApi";
+import RegisterForm from "../components/RegisterForm";
 
 function Register() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Register() {
   return (
     <>
       <NavBar />
+      <RegisterForm />
     </>
   );
 }
