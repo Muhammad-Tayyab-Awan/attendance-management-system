@@ -110,6 +110,18 @@ async function updateDate(credentials) {
   return data;
 }
 
+async function deleteAccount() {
+  const response = await fetch(`${api_url}/api/user/`, {
+    credentials: "include",
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 const authApi = {
   login,
   verifyLogin,
@@ -117,6 +129,7 @@ const authApi = {
   register,
   getData,
   updateDate,
+  deleteAccount,
 };
 
 export default authApi;
