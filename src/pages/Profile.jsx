@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useRoleContext } from "../context/roleContext";
 import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
+import { Button } from "flowbite-react";
 
 function Profile() {
   const [userData, setUserData] = useState({
@@ -46,6 +47,16 @@ function Profile() {
     });
   }, [status]);
 
+  async function handleDelete() {
+    const response = await authApi.deleteAccount();
+    if (response.success) {
+      toast.success(response.msg);
+      navigate("/");
+    } else {
+      toast.error(response.error);
+    }
+  }
+
   return (
     <>
       <NavBar />
@@ -67,6 +78,7 @@ function Profile() {
         setNewData={setUserFullData}
         setUserData={setUserData}
       />
+      <Button onClick={handleDelete}>Delete Account</Button>
     </>
   );
 }
