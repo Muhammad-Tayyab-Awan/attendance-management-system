@@ -108,7 +108,7 @@ export function UpdateProfile({ userData, setNewData, setUserData }) {
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
+      <Button onClick={() => setOpenModal(true)}>Update Profile</Button>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
