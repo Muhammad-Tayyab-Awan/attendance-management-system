@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { LoginForm } from "../components/LoginForm";
@@ -15,12 +16,10 @@ function Login() {
       } else {
         setStatus(response.status);
         setRole(response.role);
+        navigate("/dashboard");
       }
     });
-    if (status) {
-      navigate("/dashboard");
-    }
-  });
+  }, [status]);
   return (
     <>
       <NavBar />
