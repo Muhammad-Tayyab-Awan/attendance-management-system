@@ -91,6 +91,23 @@ const ViewAllUsers = () => {
     }
   };
 
+  const handleVerifyClick = async (e) => {
+    const id = e.target.id;
+    const response = await userApi.verifyUserById(id);
+    if (response.success) {
+      toast.success(response.msg);
+      userApi.getAllUsersByAdmin().then((res) => {
+        if (res.success) {
+          setData({ nodes: res.allUsers });
+        } else {
+          toast.error(res.error);
+        }
+      });
+    } else {
+      toast.error(response.error);
+    }
+  };
+
   const ROW_OPTIONS = {
     renderAfterRow: (item) => (
       <>
@@ -116,7 +133,20 @@ const ViewAllUsers = () => {
                 </li>
                 <li>
                   <strong>Verified:</strong>
-                  {item.status ? "Verified" : "Not Verified"}
+                  {item.verified ? (
+                    "Verified"
+                  ) : (
+                    <>
+                      {"Not Verified"}
+                      <Button
+                        size="xs"
+                        id={item._id}
+                        onClick={handleVerifyClick}
+                      >
+                        Verify Now
+                      </Button>
+                    </>
+                  )}
                 </li>
                 <li>
                   <Button size="xs" id={item._id} onClick={handleDeleteClick}>
