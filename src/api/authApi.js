@@ -132,6 +132,18 @@ async function uploadImage(formData) {
   return data;
 }
 
+async function deleteImage() {
+  const response = await fetch(`${api_url}/api/user/delete-photo`, {
+    credentials: "include",
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 const authApi = {
   login,
   verifyLogin,
@@ -141,6 +153,7 @@ const authApi = {
   updateDate,
   deleteAccount,
   uploadImage,
+  deleteImage,
 };
 
 export default authApi;
