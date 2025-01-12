@@ -12,7 +12,29 @@ async function submitTodayLeave(request) {
     },
     body: JSON.stringify(request),
   });
-  console.log("called");
+  const data = await response.json();
+  if (!data.success) {
+    if (!Array.isArray(data.error)) {
+      return data;
+    }
+    data.error = data.error
+      .map((error) => {
+        return error.msg;
+      })
+      .join(", ");
+  }
+  return data;
+}
+
+async function submitLeave(request) {
+  const response = await fetch(`${api_url}/api/leave`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
   const data = await response.json();
   if (!data.success) {
     if (!Array.isArray(data.error)) {
@@ -29,6 +51,7 @@ async function submitTodayLeave(request) {
 
 const leaveApi = {
   submitTodayLeave,
+  submitLeave,
 };
 
 export default leaveApi;
