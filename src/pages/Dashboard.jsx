@@ -12,19 +12,23 @@ function Dashboard() {
   const { role, setStatus, setRole, status } = useRoleContext();
   useEffect(() => {
     authApi.verifyLogin().then(async (response) => {
-      if (!response) {
-        setStatus(response);
-        navigate("/");
-      } else {
+      if (response.status) {
         setStatus(response.status);
         setRole(response.role);
+      } else {
+        setStatus(response);
+        navigate("/");
       }
     });
   }, [status, role]);
   return (
     <>
       <NavBar />
-      {role === "admin" ? <AdminDashboard /> : <UserDashboard />}
+      {role === "admin" ? (
+        <AdminDashboard />
+      ) : (
+        role === "user" && <UserDashboard />
+      )}
     </>
   );
 }
