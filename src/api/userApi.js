@@ -24,5 +24,17 @@ async function deleteUserById(id) {
   return data;
 }
 
-const userApi = { getAllUsersByAdmin, deleteUserById };
+async function verifyUserById(id) {
+  const response = await fetch(`${api_url}/api/user/verify/${id}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+const userApi = { getAllUsersByAdmin, deleteUserById, verifyUserById };
 export default userApi;
