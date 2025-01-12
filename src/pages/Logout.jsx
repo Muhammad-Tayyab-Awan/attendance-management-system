@@ -2,14 +2,15 @@
 import { useNavigate } from "react-router";
 import { NavBar } from "../components/Navbar";
 import authApi from "../api/authApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRoleContext } from "../context/roleContext";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import toast from "react-hot-toast";
 
 function Logout() {
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const { setStatus, setRole, status } = useRoleContext();
+  const { setStatus, setRole } = useRoleContext();
   useEffect(() => {
     authApi.verifyLogin().then(async (response) => {
       if (!response) {
@@ -18,9 +19,10 @@ function Logout() {
       } else {
         setStatus(response.status);
         setRole(response.role);
+        setIsLoading(false);
       }
     });
-  }, [status]);
+  }, []);
 
   const handleSubmit = async () => {
     authApi.logout().then((response) => {
@@ -38,6 +40,11 @@ function Logout() {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/75 text-white">
+          <Spinner size="xl" />
+        </div>
+      )}
       <NavBar />
       Are you confirm to logout?
       <Button size="sm" onClick={handleSubmit}>

@@ -7,10 +7,11 @@ import { useEffect } from "react";
 import { useRoleContext } from "../context/roleContext";
 import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { UpdateProfileImage } from "../components/UpdateProfileImage";
 
 function Profile() {
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
     username: "",
     name: "",
@@ -21,7 +22,7 @@ function Profile() {
   });
   const [userFullData, setUserFullData] = useState({});
   const navigate = useNavigate();
-  const { setStatus, setRole, status } = useRoleContext();
+  const { setStatus, setRole } = useRoleContext();
   useEffect(() => {
     authApi.verifyLogin().then(async (response) => {
       if (!response) {
@@ -30,6 +31,7 @@ function Profile() {
       } else {
         setStatus(response.status);
         setRole(response.role);
+        setIsLoading(false);
         const data = await authApi.getData();
         if (data.success) {
           setUserData({
@@ -50,7 +52,7 @@ function Profile() {
         }
       }
     });
-  }, [status]);
+  }, []);
 
   async function handleDelete() {
     const response = await authApi.deleteAccount();
@@ -80,6 +82,11 @@ function Profile() {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/75 text-white">
+          <Spinner size="xl" />
+        </div>
+      )}
       <NavBar />
       <div>
         <h1>Profile</h1>
