@@ -204,6 +204,22 @@ const ViewAllUsers = () => {
     },
   ];
 
+  const handleDeletion = async () => {
+    const response = await userApi.deleteAllUsers();
+    if (response.success) {
+      toast.success(response.msg);
+      userApi.getAllUsersByAdmin().then((res) => {
+        if (res.success) {
+          setData({ nodes: res.allUsers });
+        } else {
+          toast.error(res.error);
+        }
+      });
+    } else {
+      toast.error(response.error);
+    }
+  };
+
   return (
     <>
       <CompactTable
@@ -213,6 +229,9 @@ const ViewAllUsers = () => {
         data={data}
         theme={theme}
       />
+      <div>
+        <Button onClick={handleDeletion}>Delete All Users</Button>
+      </div>
     </>
   );
 };
