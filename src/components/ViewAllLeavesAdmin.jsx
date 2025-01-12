@@ -16,8 +16,6 @@ const ViewAllLeavesAdmin = () => {
     leaveApi.getAllLeavesOfUsers().then((res) => {
       if (res.success) {
         setData({ nodes: res.allLeaves });
-      } else {
-        toast.error(res.error);
       }
     });
   }, []);
@@ -181,13 +179,17 @@ const ViewAllLeavesAdmin = () => {
 
   return (
     <>
-      <CompactTable
-        columns={COLUMNS}
-        rowProps={ROW_PROPS}
-        rowOptions={ROW_OPTIONS}
-        data={data}
-        theme={theme}
-      />
+      {data.nodes.length > 0 ? (
+        <CompactTable
+          columns={COLUMNS}
+          rowProps={ROW_PROPS}
+          rowOptions={ROW_OPTIONS}
+          data={data}
+          theme={theme}
+        />
+      ) : (
+        <h1>No Leaves Found</h1>
+      )}
     </>
   );
 };
