@@ -36,5 +36,22 @@ async function verifyUserById(id) {
   return data;
 }
 
-const userApi = { getAllUsersByAdmin, deleteUserById, verifyUserById };
+async function deleteAllUsers() {
+  const response = await fetch(`${api_url}/api/user/all-users`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+const userApi = {
+  getAllUsersByAdmin,
+  deleteUserById,
+  verifyUserById,
+  deleteAllUsers,
+};
 export default userApi;
