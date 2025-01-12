@@ -6,7 +6,6 @@ const startHour = import.meta.env.VITE_START_HOUR;
 
 function MarkAttendance() {
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(date.toTimeString().split(" ")[0]);
   const [attendanceMarked, setAttendanceMarked] = useState(
     date.getHours() >= startHour ? true : false,
   );
@@ -17,9 +16,8 @@ function MarkAttendance() {
     const interval = setInterval(() => {
       setDate(new Date());
     }, 1000);
-    setTime(date.toTimeString().split(" ")[0]);
     return () => clearInterval(interval);
-  }, [time, date]);
+  }, [date]);
 
   useEffect(() => {
     attendanceApi.getAttendance().then((response) => {
@@ -30,7 +28,7 @@ function MarkAttendance() {
         setAttendanceMarked(false);
       }
     });
-  }, [date]);
+  }, []);
 
   const markAttendance = async () => {
     const response = await attendanceApi.markAttendance();
@@ -55,7 +53,7 @@ function MarkAttendance() {
           : `Attendance is not marked yet. please mark your attendance before ${startHour} o'clock`}
       </p>
       <div>Date : {date.toDateString()}</div>
-      <div>Time : {time}</div>
+      <div>Time : {date.toTimeString().split(" ")[0]}</div>
       <Button
         color={attendanceMarked ? "failure" : "success"}
         disabled={attendanceMarked}
