@@ -61,7 +61,7 @@ export function LoginForm() {
 
   return (
     <form
-      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950"
+      className="flex w-full max-w-xs flex-col gap-4 rounded-md bg-slate-400 p-4 shadow-md shadow-purple-600 dark:bg-purple-900"
       onSubmit={handleSubmit(submitCredentials)}
       noValidate
     >
@@ -73,6 +73,7 @@ export function LoginForm() {
           id="email"
           type="email"
           placeholder="example@mail.com"
+          autoComplete="email"
           {...register("email", { required: true })}
           color={errors.email && "failure"}
           helperText={<>{errors.email && errors.email.message}</>}
@@ -87,13 +88,19 @@ export function LoginForm() {
           id="password"
           type="password"
           placeholder="Enter password"
+          autoComplete="current-password"
           {...register("password", { required: true })}
           color={errors.password && "failure"}
           helperText={<>{errors.password && errors.password.message}</>}
           required
         />
       </div>
-      <Button disabled={isSubmitting} type="submit">
+      <Button
+        isProcessing={isSubmitting}
+        type="submit"
+        gradientDuoTone="purpleToBlue"
+        className="w-1/2 self-center"
+      >
         Login
       </Button>
     </form>

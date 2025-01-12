@@ -2,7 +2,10 @@ import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState("light");
+  
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("amsTheme") || "light";
+  });
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("amsTheme") || "light";
