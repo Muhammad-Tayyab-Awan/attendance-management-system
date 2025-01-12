@@ -9,8 +9,10 @@ import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
 import { Button, Spinner } from "flowbite-react";
 import { UpdateProfileImage } from "../components/UpdateProfileImage";
+import gradeApi from "../api/gradeApi";
 
 function Profile() {
+  const [grades, setGrades] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
     username: "",
@@ -22,7 +24,7 @@ function Profile() {
   });
   const [userFullData, setUserFullData] = useState({});
   const navigate = useNavigate();
-  const { setStatus, setRole } = useRoleContext();
+  const { setStatus, setRole, role } = useRoleContext();
   useEffect(() => {
     authApi.verifyLogin().then(async (response) => {
       if (!response) {
@@ -31,7 +33,6 @@ function Profile() {
       } else {
         setStatus(response.status);
         setRole(response.role);
-        setIsLoading(false);
         const data = await authApi.getData();
         if (data.success) {
           setUserData({
@@ -47,6 +48,16 @@ function Profile() {
                 : "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
           });
           setUserFullData(data.user);
+          if (response.role === "user") {
+            gradeApi.getGrades().then((response) => {
+              if (response.success) {
+                setGrades(response.grades);
+              } else {
+                toast.error(response.error);
+              }
+            });
+          }
+          setIsLoading(false);
         } else {
           toast.error(data.error);
         }
@@ -109,6 +120,19 @@ function Profile() {
       <UpdateProfileImage user={userData} setUser={setUserData} />
       <Button onClick={handleDelete}>Delete Account</Button>
       <Button onClick={handleImageDelete}>Delete Profile Image</Button>
+      {role === "user" && (
+        <div>
+          <h1>Grades</h1>
+          <div>
+            <p>Grade : {grades.grade}</p>
+            <p>Total Days : {grades.totalDays}</p>
+            <p>Presents : {grades.totalPresents}</p>
+            <p>Absents : {grades.totalAbsents}</p>
+            <p>Leaves : {grades.totalLeaves}</p>
+            <p>Percentage : {grades.percentage}</p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
