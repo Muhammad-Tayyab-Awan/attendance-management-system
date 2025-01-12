@@ -13,7 +13,7 @@ const schema = Joi.object({
     .messages({
       "string.pattern.base":
         "Username must consist of 6 to 18 chars (lowercase and numbers only)",
-      "any.required": "Username is required",
+      "string.empty": "Username is required",
     }),
 
   email: Joi.string()
@@ -44,7 +44,7 @@ const schema = Joi.object({
     .messages({
       "string.pattern.base":
         "First name must start with an uppercase letter and contain 4 to 21 characters",
-      "any.required": "First name is required",
+      "string.empty": "First name is required",
     }),
 
   lastName: Joi.string()
@@ -53,12 +53,12 @@ const schema = Joi.object({
     .messages({
       "string.pattern.base":
         "Last name must start with an uppercase letter and contain 4 to 31 characters",
-      "any.required": "Last name is required",
+      "string.empty": "Last name is required",
     }),
 
   gender: Joi.string().valid("male", "female").required().messages({
     "any.only": "Gender must be either 'male' or 'female'",
-    "any.required": "Gender is required",
+    "string.empty": "Gender is required",
   }),
 
   address: Joi.string()
@@ -67,7 +67,7 @@ const schema = Joi.object({
     .messages({
       "string.pattern.base":
         "Address must be between 10 and 70 characters long and can include letters, numbers, spaces, commas, dots, and hyphens",
-      "any.required": "Address is required",
+      "string.empty": "Address is required",
     }),
 });
 
@@ -105,7 +105,7 @@ function RegisterForm() {
 
   return (
     <form
-      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950"
+      className="my-4 flex w-full max-w-md flex-col gap-4 rounded-md bg-slate-400 p-4 shadow-md shadow-purple-600 dark:bg-purple-900"
       onSubmit={handleSubmit(submitCredentials)}
       noValidate
     >
@@ -186,6 +186,7 @@ function RegisterForm() {
         <TextInput
           id="email"
           type="email"
+          autoComplete="username"
           placeholder="example@mail.com"
           {...register("email")}
           color={errors.email && "failure"}
@@ -201,6 +202,7 @@ function RegisterForm() {
           id="password"
           type="password"
           placeholder="Enter password"
+          autoComplete="current-password"
           {...register("password")}
           color={errors.password && "failure"}
           helperText={<>{errors.password && errors.password.message}</>}
@@ -221,7 +223,12 @@ function RegisterForm() {
           required
         />
       </div>
-      <Button disabled={isSubmitting} type="submit">
+      <Button
+        isProcessing={isSubmitting}
+        type="submit"
+        gradientDuoTone="purpleToBlue"
+        className="w-1/2 self-center"
+      >
         Register
       </Button>
     </form>

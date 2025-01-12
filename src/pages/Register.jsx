@@ -26,12 +26,14 @@ function Register() {
   return (
     <>
       {isLoading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/75 text-white">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-blue-950 text-white">
           <Spinner size="xl" />
         </div>
       )}
       <NavBar />
+      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
       <RegisterForm />
+      </div>
     </>
   );
 }
