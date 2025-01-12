@@ -1,5 +1,11 @@
+import ViewAllUsers from "./ViewAllUsers";
+
 function AdminDashboard() {
-  return <div>AdminDashboard</div>;
+  return (
+    <div>
+      <ViewAllUsers />
+    </div>
+  );
 }
 
 export default AdminDashboard;
