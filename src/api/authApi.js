@@ -122,6 +122,16 @@ async function deleteAccount() {
   return data;
 }
 
+async function uploadImage(formData) {
+  const response = await fetch(`${api_url}/api/user/upload`, {
+    credentials: "include",
+    method: "POST",
+    body: formData,
+  });
+  const data = await response.json();
+  return data;
+}
+
 const authApi = {
   login,
   verifyLogin,
@@ -130,6 +140,7 @@ const authApi = {
   getData,
   updateDate,
   deleteAccount,
+  uploadImage,
 };
 
 export default authApi;
