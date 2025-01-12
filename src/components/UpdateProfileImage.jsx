@@ -26,7 +26,7 @@ export function UpdateProfileImage({ user, setUser }) {
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
+      <Button onClick={() => setOpenModal(true)}>Upload Profile Image</Button>
       <Modal
         show={openModal}
         size="md"

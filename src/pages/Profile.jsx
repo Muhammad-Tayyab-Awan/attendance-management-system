@@ -62,6 +62,22 @@ function Profile() {
     }
   }
 
+  async function handleImageDelete() {
+    const response = await authApi.deleteImage();
+    if (response.success) {
+      toast.success(response.msg);
+      setUserData({
+        ...userData,
+        image:
+          userFullData.gender === "male"
+            ? "https://cdn-icons-png.flaticon.com/512/1999/1999625.png"
+            : "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
+      });
+    } else {
+      toast.error(response.error);
+    }
+  }
+
   return (
     <>
       <NavBar />
@@ -85,6 +101,7 @@ function Profile() {
       />
       <UpdateProfileImage user={userData} setUser={setUserData} />
       <Button onClick={handleDelete}>Delete Account</Button>
+      <Button onClick={handleImageDelete}>Delete Profile Image</Button>
     </>
   );
 }
