@@ -61,6 +61,21 @@ async function getOverallLeaveOfUser() {
   return data;
 }
 
+async function reviewLeave(id, mark) {
+  const response = await fetch(
+    `${api_url}/api/leave/review/?leaveId=${id}&mark=${mark}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  return data;
+}
+
 async function getAllLeavesOfUsers() {
   const response = await fetch(`${api_url}/api/leave/admin`, {
     method: "GET",
@@ -78,6 +93,7 @@ const leaveApi = {
   submitLeave,
   getOverallLeaveOfUser,
   getAllLeavesOfUsers,
+  reviewLeave,
 };
 
 export default leaveApi;
