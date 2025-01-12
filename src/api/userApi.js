@@ -12,5 +12,17 @@ async function getAllUsersByAdmin() {
   return data;
 }
 
-const userApi = { getAllUsersByAdmin };
+async function deleteUserById(id) {
+  const response = await fetch(`${api_url}/api/user/all-users?userId=${id}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+const userApi = { getAllUsersByAdmin, deleteUserById };
 export default userApi;
