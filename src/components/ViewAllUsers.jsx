@@ -5,6 +5,7 @@ import { useTheme } from "@table-library/react-table-library/theme";
 
 import toast from "react-hot-toast";
 import userApi from "../api/userApi";
+import { Button } from "flowbite-react";
 
 const ViewAllUsers = () => {
   const [data, setData] = React.useState({
@@ -79,6 +80,17 @@ const ViewAllUsers = () => {
     onClick: handleExpand,
   };
 
+  const handleDeleteClick = async (e) => {
+    const id = e.target.id;
+    const response = await userApi.deleteUserById(id);
+    if (response.success) {
+      toast.success(response.msg);
+      setData({ nodes: data.nodes.filter((item) => item._id !== id) });
+    } else {
+      toast.error(response.error);
+    }
+  };
+
   const ROW_OPTIONS = {
     renderAfterRow: (item) => (
       <>
@@ -105,6 +117,11 @@ const ViewAllUsers = () => {
                 <li>
                   <strong>Verified:</strong>
                   {item.status ? "Verified" : "Not Verified"}
+                </li>
+                <li>
+                  <Button size="xs" id={item._id} onClick={handleDeleteClick}>
+                    Delete
+                  </Button>
                 </li>
               </ul>
             </td>
