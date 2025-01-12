@@ -1,3 +1,4 @@
+import ViewAllAttendanceAdmin from "./ViewAllAttendanceAdmin";
 import ViewAllLeavesAdmin from "./ViewAllLeavesAdmin";
 import ViewAllUsers from "./ViewAllUsers";
 
@@ -6,6 +7,7 @@ function AdminDashboard() {
     <div>
       <ViewAllUsers />
       <ViewAllLeavesAdmin />
+      <ViewAllAttendanceAdmin/>
     </div>
   );
 }
