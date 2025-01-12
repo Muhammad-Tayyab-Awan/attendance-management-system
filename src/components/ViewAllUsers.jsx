@@ -6,6 +6,7 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import toast from "react-hot-toast";
 import userApi from "../api/userApi";
 import { Button } from "flowbite-react";
+import ViewAllLeavesAdmin from "./ViewAllLeavesAdmin";
 
 const ViewAllUsers = () => {
   const [data, setData] = React.useState({
@@ -232,6 +233,7 @@ const ViewAllUsers = () => {
       <div>
         <Button onClick={handleDeletion}>Delete All Users</Button>
       </div>
+      <ViewAllLeavesAdmin />
     </>
   );
 };
