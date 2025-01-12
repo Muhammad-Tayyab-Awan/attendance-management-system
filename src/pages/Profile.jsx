@@ -8,6 +8,7 @@ import { useRoleContext } from "../context/roleContext";
 import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
 import { Button } from "flowbite-react";
+import { UpdateProfileImage } from "../components/UpdateProfileImage";
 
 function Profile() {
   const [userData, setUserData] = useState({
@@ -37,7 +38,11 @@ function Profile() {
             email: data.user.email,
             gender: data.user.gender === "male" ? "Male" : "Female",
             address: data.user.address,
-            image: data.user.profileImage,
+            image: data.user.profileImage
+              ? data.user.profileImage
+              : data.user.gender === "male"
+                ? "https://cdn-icons-png.flaticon.com/512/1999/1999625.png"
+                : "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
           });
           setUserFullData(data.user);
         } else {
@@ -78,6 +83,7 @@ function Profile() {
         setNewData={setUserFullData}
         setUserData={setUserData}
       />
+      <UpdateProfileImage user={userData} setUser={setUserData} />
       <Button onClick={handleDelete}>Delete Account</Button>
     </>
   );
