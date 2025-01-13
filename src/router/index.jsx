@@ -4,6 +4,7 @@ import Profile from "../pages/Profile";
 import Dashboard from "../pages/Dashboard";
 import Register from "../pages/Register";
 import Logout from "../pages/Logout";
+import NotFound from "../pages/NotFound";
 
 function AppRouter() {
   return (
@@ -14,6 +15,7 @@ function AppRouter() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
