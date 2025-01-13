@@ -87,7 +87,7 @@ async function getData() {
   return data;
 }
 
-async function updateDate(credentials) {
+async function updateData(credentials) {
   const response = await fetch(`${api_url}/api/user/`, {
     credentials: "include",
     method: "PUT",
@@ -173,7 +173,7 @@ const authApi = {
   logout,
   register,
   getData,
-  updateDate,
+  updateData,
   deleteAccount,
   uploadImage,
   deleteImage,
