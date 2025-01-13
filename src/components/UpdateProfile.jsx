@@ -6,6 +6,8 @@ import authApi from "../api/authApi";
 import toast from "react-hot-toast";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { useNavigate } from "react-router";
 
 const schema = Joi.object({
   username: Joi.string()
@@ -59,6 +61,7 @@ const schema = Joi.object({
 });
 
 export function UpdateProfile({ userData, setNewData, setUserData }) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -82,7 +85,7 @@ export function UpdateProfile({ userData, setNewData, setUserData }) {
   }
 
   async function submitCredentials(data) {
-    const response = await authApi.updateDate(data);
+    const response = await authApi.updateData(data);
     reset();
     onCloseModal();
     if (response.success) {
@@ -102,14 +105,20 @@ export function UpdateProfile({ userData, setNewData, setUserData }) {
         toast.error(data.error);
       }
     } else {
+      await authApi.logout();
+      navigate("/");
       toast.error(response.error);
     }
   }
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>Update Profile</Button>
-      <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+      <Icon
+        icon="lucide:edit"
+        onClick={() => setOpenModal(true)}
+        className="cursor-pointer"
+      />
+      <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
           <form
