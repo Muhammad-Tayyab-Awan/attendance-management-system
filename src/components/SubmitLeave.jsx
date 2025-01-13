@@ -1,33 +1,30 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import attendanceApi from "../api/attendanceApi";
 import { LeaveSubmitModal } from "./LeaveSubmitModal";
 import SubmitTodayLeave from "./SubmitTodayLeave";
+import { useAttendanceContext } from "../context/AttendanceContext";
 const startHour = import.meta.env.VITE_START_HOUR;
 
 function SubmitLeave() {
-  const [date, setDate] = useState(new Date());
-  const [attendanceStatus, setAttendanceStatus] = useState("");
-  const [attendanceMarked, setAttendanceMarked] = useState(
-    date.getHours() >= startHour ? true : false,
-  );
+  const { marked, setStatus, setMarked } = useAttendanceContext();
 
   useEffect(() => {
     attendanceApi.getAttendance().then((response) => {
       if (response.success) {
-        setAttendanceMarked(true);
-        setAttendanceStatus(response.attendance.status);
+        setMarked(true);
+        setStatus(response.attendance.status);
       } else {
-        setAttendanceMarked(false);
+        setMarked(false);
       }
     });
   }, []);
 
   return (
     <div>
-      <h1>Submit Leave</h1>
-      {!attendanceMarked && <SubmitTodayLeave />}
-      <LeaveSubmitModal attendanceMarked={attendanceMarked} />
+      {!marked && <SubmitTodayLeave />}
+      <LeaveSubmitModal/>
     </div>
   );
 }

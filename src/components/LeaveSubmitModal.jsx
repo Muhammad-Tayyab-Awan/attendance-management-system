@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import leaveApi from "../api/leaveApi";
 import toast from "react-hot-toast";
+import { useAttendanceContext } from "../context/AttendanceContext";
 
 const schema = Joi.object({
   startDate: Joi.date().iso().required().messages({
@@ -26,7 +27,8 @@ const schema = Joi.object({
     }),
 });
 
-export function LeaveSubmitModal({ attendanceMarked }) {
+export function LeaveSubmitModal() {
+  const { marked } = useAttendanceContext();
   const {
     reset,
     register,
@@ -60,9 +62,10 @@ export function LeaveSubmitModal({ attendanceMarked }) {
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>
-        Submit Leave for other days
+      <Button onClick={() => setOpenModal(true)} size="sm" className="my-4">
+        Submit Leave
       </Button>
+
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
@@ -74,16 +77,18 @@ export function LeaveSubmitModal({ attendanceMarked }) {
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
               Fill this form to submit your leave
             </h3>
+
             <div className="max-w-md">
-              <div className="mb-2 block">
-                <Label htmlFor="reason" value="Select your reason" />
-              </div>
+              <Label
+                htmlFor="reason"
+                className="mb-2"
+                value="Select your reason"
+              />
               <Select
                 id="reason"
                 {...register("reason")}
                 required
-                color={errors.reason && "failure"}
-                helperText={<>{errors.reason && errors.reason.message}</>}
+                color={errors.reason ? "failure" : undefined}
               >
                 <option value="medical">Medical</option>
                 <option value="personal">Personal</option>
@@ -92,53 +97,67 @@ export function LeaveSubmitModal({ attendanceMarked }) {
                   Other
                 </option>
               </Select>
+              {errors.reason && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {errors.reason.message}
+                </p>
+              )}
             </div>
+
             <div className="max-w-md">
-              <div className="mb-2 block">
-                <Label htmlFor="startDate" value="Select leave start date" />
-              </div>
+              <Label
+                htmlFor="startDate"
+                className="mb-2"
+                value="Select leave start date"
+              />
               <TextInput
                 type="date"
-                required
                 id="startDate"
-                color={errors.startDate && "failure"}
+                required
+                color={errors.startDate ? "failure" : undefined}
                 {...register("startDate")}
                 min={
-                  attendanceMarked
-                    ? `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? 0 + (new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getDate() + 1 < 10 ? 0 + (new Date().getDate() + 1).toString() : new Date().getDate() + 1}`
-                    : `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? 0 + (new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getDate() < 10 ? 0 + new Date().getDate().toString() : new Date().getDate()}`
+                  marked
+                    ? `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${(new Date().getDate() + 1).toString().padStart(2, "0")}`
+                    : `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
                 }
-                helperText={<>{errors.startDate && errors.startDate.message}</>}
               />
+              {errors.startDate && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {errors.startDate.message}
+                </p>
+              )}
             </div>
+
             <div className="max-w-md">
-              <div className="mb-2 block">
-                <Label htmlFor="endDate" value="Select leave end date" />
-              </div>
+              <Label
+                htmlFor="endDate"
+                className="mb-2"
+                value="Select leave end date"
+              />
               <TextInput
                 type="date"
-                required
                 id="endDate"
-                color={errors.endDate && "failure"}
+                required
+                color={errors.endDate ? "failure" : undefined}
                 {...register("endDate", { required: true })}
                 min={
-                  attendanceMarked
-                    ? `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? 0 + (new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getDate() + 1 < 10 ? 0 + (new Date().getDate() + 1).toString() : new Date().getDate() + 1}`
-                    : `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? 0 + (new Date().getMonth() + 1).toString() : new Date().getMonth() + 1}-${new Date().getDate() < 10 ? 0 + new Date().getDate().toString() : new Date().getDate()}`
+                  marked
+                    ? `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2,"0")}-${(new Date().getDate() + 1).toString().padStart(2, "0")}`
+                    : `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`
                 }
-                helperText={<>{errors.endDate && errors.endDate.message}</>}
               />
+              {errors.endDate && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {errors.endDate.message}
+                </p>
+              )}
             </div>
-            <div className="max-w-md">
-              <Button type="submit" disabled={isSubmitting}>
+            <div className="flex gap-4">
+              <Button type="submit" color="success" disabled={isSubmitting}>
                 Submit Leave
               </Button>
-              <Button
-                type="submit"
-                onClick={() => {
-                  setOpenModal(false);
-                }}
-              >
+              <Button color="failure" onClick={() => setOpenModal(false)}>
                 Cancel
               </Button>
             </div>

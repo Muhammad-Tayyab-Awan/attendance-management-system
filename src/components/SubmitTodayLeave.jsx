@@ -40,30 +40,41 @@ function SubmitTodayLeave() {
 
   return (
     <>
-      <form noValidate className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="max-w-md">
-          <div className="mb-2 block">
-            <Label htmlFor="reason" value="Select your reason" />
+      <div className="mx-auto max-w-md rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
+        <form
+          noValidate
+          className="space-y-6"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
+            <Label
+              htmlFor="reason"
+              className="mb-2"
+              value="Select your reason"
+            />
+            <Select
+              id="reason"
+              {...register("reason")}
+              color={errors.reason ? "failure" : undefined}
+              helperText={errors.reason && <>{errors.reason.message}</>}
+            >
+              <option value="medical">Medical</option>
+              <option value="personal">Personal</option>
+              <option value="academic">Academic</option>
+              <option value="other" defaultChecked>
+                Other
+              </option>
+            </Select>
           </div>
-          <Select
-            id="reason"
-            {...register("reason")}
-            required
-            color={errors.reason && "failure"}
-            helperText={<>{errors.reason && errors.reason.message}</>}
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full"
           >
-            <option value="medical">Medical</option>
-            <option value="personal">Personal</option>
-            <option value="academic">Academic</option>
-            <option value="other" defaultChecked>
-              Other
-            </option>
-          </Select>
-        </div>
-        <Button type="submit" disabled={isSubmitting}>
-          Submit
-        </Button>
-      </form>
+            Submit
+          </Button>
+        </form>
+      </div>
     </>
   );
 }

@@ -1,18 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import attendanceApi from "../api/attendanceApi";
 import toast from "react-hot-toast";
+import { useAttendanceContext } from "../context/AttendanceContext";
 const startHour = import.meta.env.VITE_START_HOUR;
 
 function MarkAttendance() {
   const [processing, setProcessing] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  const [attendanceMarked, setAttendanceMarked] = useState(
-    date.getHours() <= startHour && date.getHours() >= startHour - 1,
-  );
-
-  const [attendanceStatus, setAttendanceStatus] = useState("");
+  const {marked,status,setMarked, setStatus} = useAttendanceContext()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,10 +22,10 @@ function MarkAttendance() {
   useEffect(() => {
     attendanceApi.getAttendance().then((response) => {
       if (response.success) {
-        setAttendanceMarked(true);
-        setAttendanceStatus(response.attendance.status);
+        setMarked(true);
+        setStatus(response.attendance.status);
       } else {
-        setAttendanceMarked(false);
+        setMarked(false);
       }
     });
   }, []);
@@ -36,8 +34,8 @@ function MarkAttendance() {
     const response = await attendanceApi.markAttendance();
     if (response.success) {
       toast.success(response.msg);
-      setAttendanceStatus("present");
-      setAttendanceMarked(true);
+      setStatus("present");
+      setMarked(true);
       setProcessing(false);
     } else {
       toast.error(response.error);
@@ -51,12 +49,12 @@ function MarkAttendance() {
         Mark Today Attendance
       </h1>
       <p className="text-gray-700 dark:text-gray-300">
-        {attendanceMarked
-          ? attendanceStatus === "absent"
+        {marked
+          ? status === "absent"
             ? "You are absent today"
-            : attendanceStatus === "leave"
+            : status === "leave"
               ? "You are on leave today"
-              : `You are ${attendanceStatus} today`
+              : `You are ${status} today`
           : date.getHours() >= startHour - 1 && date.getHours() <= 7
             ? `Attendance is not marked yet. Please mark your attendance before ${startHour} o'clock`
             : `You can only mark your attendance from ${startHour - 1} o'clock to ${startHour} o'clock`}
@@ -72,7 +70,7 @@ function MarkAttendance() {
       </div>
       <Button
         disabled={
-          attendanceMarked ||
+          status ||
           date.getHours() > startHour ||
           date.getHours() < startHour - 1
         }
@@ -83,9 +81,9 @@ function MarkAttendance() {
         }}
         isProcessing={processing}
         type="submit"
-        color={attendanceMarked ? "failure" : "success"}
+        color={marked ? "failure" : "success"}
       >
-        {attendanceMarked ? "Already Marked" : "Mark Now"}
+        {marked ? "Already Marked" : "Mark Now"}
       </Button>
     </div>
   );
