@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { NavBar } from "../components/Navbar";
 import authApi from "../api/authApi";
 import { useEffect, useState } from "react";
-import { useRoleContext } from "../context/roleContext";
+import { useRoleContext } from "../context/RoleContext";
 import UserDashboard from "../components/UserDashboard";
 import AdminDashboard from "../components/AdminDashboard";
 import { Spinner } from "flowbite-react";

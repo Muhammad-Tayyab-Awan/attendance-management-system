@@ -1,7 +1,7 @@
 import { Navbar } from "flowbite-react";
 import { Link, useLocation } from "react-router";
 import ThemeToggle from "./ThemeToggle";
-import { useRoleContext } from "../context/roleContext";
+import { useRoleContext } from "../context/RoleContext";
 
 export function NavBar() {
   const location = useLocation();

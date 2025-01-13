@@ -5,7 +5,7 @@ import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { useRoleContext } from "../context/roleContext";
+import { useRoleContext } from "../context/RoleContext";
 
 const schema = Joi.object({
   email: Joi.string()

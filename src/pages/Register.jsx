@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/Navbar";
-import { useRoleContext } from "../context/roleContext";
+import { useRoleContext } from "../context/RoleContext";
 import authApi from "../api/authApi";
 import RegisterForm from "../components/RegisterForm";
 import { Spinner } from "flowbite-react";

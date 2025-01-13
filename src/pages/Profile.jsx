@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { NavBar } from "../components/Navbar";
 import authApi from "../api/authApi";
 import { useEffect } from "react";
-import { useRoleContext } from "../context/roleContext";
+import { useRoleContext } from "../context/RoleContext";
 import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
 import { Spinner } from "flowbite-react";
