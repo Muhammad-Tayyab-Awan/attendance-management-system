@@ -41,7 +41,7 @@ function Logout() {
   return (
     <>
       {isLoading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/75 text-white">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-blue-950 text-white">
           <Spinner size="xl" />
         </div>
       )}
