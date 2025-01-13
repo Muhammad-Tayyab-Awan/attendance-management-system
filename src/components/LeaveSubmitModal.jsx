@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { joiResolver } from "@hookform/resolvers/joi";
 import { Button, Label, Modal, Select, TextInput } from "flowbite-react";
 import Joi from "joi";
