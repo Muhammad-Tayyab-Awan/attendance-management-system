@@ -122,7 +122,7 @@ export function UpdateProfile({ userData, setNewData, setUserData }) {
         <Modal.Header />
         <Modal.Body>
           <form
-            className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950"
+            className="flex max-w-md flex-col gap-4"
             onSubmit={handleSubmit(submitCredentials)}
             noValidate
           >
@@ -224,8 +224,13 @@ export function UpdateProfile({ userData, setNewData, setUserData }) {
                 required
               />
             </div>
-            <Button disabled={isSubmitting} type="submit">
-              Register
+            <Button
+              isProcessing={isSubmitting}
+              disabled={isSubmitting}
+              type="submit"
+              className="w-1/2 self-center"
+            >
+              Update
             </Button>
           </form>
         </Modal.Body>
