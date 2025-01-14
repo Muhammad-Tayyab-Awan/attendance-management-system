@@ -56,7 +56,7 @@ const ViewAllAttendanceAdmin = () => {
           </Table>
         </div>
       ) : (
-        <div>No attendance record found</div>
+        <div className="mx-auto w-[80%] py-2 text-xl text-center">No attendance record found</div>
       )}
     </>
   );

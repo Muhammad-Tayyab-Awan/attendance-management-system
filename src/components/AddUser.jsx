@@ -107,7 +107,7 @@ function AddUser() {
 
   return (
     <form
-      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950"
+      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950 mx-auto"
       onSubmit={handleSubmit(submitCredentials)}
       noValidate
     >
@@ -252,8 +252,8 @@ function AddUser() {
           required
         />
       </div>
-      <Button disabled={isSubmitting} type="submit">
-        Add
+      <Button disabled={isSubmitting} type="submit" className="mx-auto" size="sm">
+        Add User
       </Button>
     </form>
   );

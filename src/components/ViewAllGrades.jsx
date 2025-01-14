@@ -24,7 +24,7 @@ const ViewAllGrades = () => {
               <Table.HeadCell>UserId</Table.HeadCell>
               <Table.HeadCell>Grade</Table.HeadCell>
               <Table.HeadCell>Percentage</Table.HeadCell>
-              <Table.HeadCell>TOtal Days</Table.HeadCell>
+              <Table.HeadCell>Total Days</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {data.map((grade) => {
@@ -46,7 +46,7 @@ const ViewAllGrades = () => {
           </Table>
         </div>
       ) : (
-        <div>No grade record found</div>
+        <div className="mx-auto w-[80%] py-2 text-xl text-center">No grade record found</div>
       )}
     </>
   );

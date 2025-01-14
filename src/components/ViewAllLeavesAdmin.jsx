@@ -115,7 +115,7 @@ const ViewAllLeavesAdmin = () => {
           </Table>
         </div>
       ) : (
-        <div>No leaves found</div>
+        <div className="mx-auto w-[80%] py-2 text-xl text-center">No leave record found</div>
       )}
     </>
   );
