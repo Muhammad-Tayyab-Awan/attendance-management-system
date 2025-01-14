@@ -12,6 +12,7 @@ const ViewAllUsers = () => {
       if (res.success) {
         setData(res.allUsers);
       } else {
+        setData([]);
         toast.error(res.error);
       }
     });
@@ -22,24 +23,24 @@ const ViewAllUsers = () => {
   }
 
   const handleDeleteClick = async (e) => {
-    const id = e.target.id;
+    const id = e.target.parentElement.id;
     const response = await userApi.deleteUserById(id);
     if (response.success) {
       toast.success(response.msg);
-      setData({ nodes: data.nodes.filter((item) => item._id !== id) });
+      setData(data.filter((item) => item._id !== id));
     } else {
       toast.error(response.error);
     }
   };
 
   const handleVerifyClick = async (e) => {
-    const id = e.target.id;
+    const id = e.target.parentElement.id;
     const response = await userApi.verifyUserById(id);
     if (response.success) {
       toast.success(response.msg);
       userApi.getAllUsersByAdmin().then((res) => {
         if (res.success) {
-          setData({ nodes: res.allUsers });
+          setData(res.allUsers);
         } else {
           toast.error(res.error);
         }
@@ -55,7 +56,7 @@ const ViewAllUsers = () => {
       toast.success(response.msg);
       userApi.getAllUsersByAdmin().then((res) => {
         if (res.success) {
-          setData({ nodes: res.allUsers });
+          setData(res.allUsers);
         } else {
           toast.error(res.error);
         }
@@ -67,7 +68,7 @@ const ViewAllUsers = () => {
 
   return (
     <>
-      {data.length || data.length > 0 ? (
+      {data && data.length > 0 ? (
         <div className="my-4 overflow-x-auto">
           <Table className="mx-auto w-[90%]">
             <Table.Head>
@@ -92,11 +93,36 @@ const ViewAllUsers = () => {
                     </Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>{capitalizeFirstLetter(user.role)}</Table.Cell>
-                    <Table.Cell>{capitalizeFirstLetter(user.gender)}</Table.Cell>
+                    <Table.Cell>
+                      {capitalizeFirstLetter(user.gender)}
+                    </Table.Cell>
                     <Table.Cell>{user.address}</Table.Cell>
-                    <Table.Cell>{user.status ? "Valid":"Not Valid"}</Table.Cell>
-                    <Table.Cell>{user.verified ? "Verified":<Button size="xs" id={user._id} onClick={handleVerifyClick}>Verify Now</Button>}</Table.Cell>
-                    <Table.Cell><Button size="xs" color="failure" id={user._id} onClick={handleDeleteClick}>Delete</Button></Table.Cell>
+                    <Table.Cell>
+                      {user.status ? "Valid" : "Not Valid"}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {user.verified ? (
+                        "Verified"
+                      ) : (
+                        <Button
+                          size="xs"
+                          id={user._id}
+                          onClick={handleVerifyClick}
+                        >
+                          Verify Now
+                        </Button>
+                      )}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Button
+                        size="xs"
+                        color="failure"
+                        id={user._id}
+                        onClick={handleDeleteClick}
+                      >
+                        Delete
+                      </Button>
+                    </Table.Cell>
                   </Table.Row>
                 );
               })}
@@ -104,10 +130,14 @@ const ViewAllUsers = () => {
           </Table>
         </div>
       ) : (
-        <div className="mx-auto w-[80%] py-2 text-xl text-center">No user record found</div>
+        <div className="mx-auto w-[80%] py-2 text-center text-xl">
+          No user record found
+        </div>
       )}
       <div>
-        <Button onClick={handleDeletion} className="mx-auto" color="failure">Delete All Users</Button>
+        <Button onClick={handleDeletion} className="mx-auto" color="failure">
+          Delete All Users
+        </Button>
       </div>
       <AddUser />
     </>
