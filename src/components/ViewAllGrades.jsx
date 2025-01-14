@@ -8,7 +8,7 @@ const ViewAllGrades = () => {
   React.useEffect(() => {
     gradeApi.getAllUsersGrade().then((res) => {
       if (res.success) {
-        setData(res.userGrades);
+        setData(res.grades);
       } else {
         setData([]);
       }
@@ -17,7 +17,7 @@ const ViewAllGrades = () => {
 
   return (
     <>
-      {data.length || data.length > 0 ? (
+      {data && data.length > 0 ? (
         <div className="my-4 overflow-x-auto">
           <Table className="mx-auto w-[90%]">
             <Table.Head>
