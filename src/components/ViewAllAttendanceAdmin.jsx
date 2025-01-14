@@ -8,7 +8,7 @@ const ViewAllAttendanceAdmin = () => {
   React.useEffect(() => {
     attendanceApi.getAllAttendanceByAdmin().then((res) => {
       if (res.success) {
-        setData( res.attendances );
+        setData(res.attendances);
       } else {
         setData([]);
       }
@@ -20,9 +20,9 @@ const ViewAllAttendanceAdmin = () => {
   }
 
   return (
-        <>
-      {data.length || data.length > 0 ? (
-        <div className="overflow-x-auto my-4">
+    <>
+      {data && data.length > 0 ? (
+        <div className="my-4 overflow-x-auto">
           <Table className="mx-auto w-[90%]">
             <Table.Head>
               <Table.HeadCell>UserId</Table.HeadCell>
@@ -30,7 +30,7 @@ const ViewAllAttendanceAdmin = () => {
               <Table.HeadCell>Marked On</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
             </Table.Head>
-            <Table.Body  className="divide-y">
+            <Table.Body className="divide-y">
               {data.map((attendance) => {
                 return (
                   <Table.Row
@@ -56,7 +56,9 @@ const ViewAllAttendanceAdmin = () => {
           </Table>
         </div>
       ) : (
-        <div className="mx-auto w-[80%] py-2 text-xl text-center">No attendance record found</div>
+        <div className="mx-auto w-[80%] py-2 text-center text-xl">
+          No attendance record found
+        </div>
       )}
     </>
   );
