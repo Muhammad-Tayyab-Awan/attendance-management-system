@@ -10,3 +10,46 @@
 * {
   scrollbar-width: none;
 }
+.loader:after {
+  content: "";
+  font-weight: 600;
+  font-size: 1.25rem;
+  animation-duration: 1200ms;
+  animation-name: loaderText;
+  animation-iteration-count: infinite;
+}
+@keyframes loaderText {
+  0% {
+    content: "L";
+  }
+  10% {
+    content: "Lo";
+  }
+  20% {
+    content: "Loa";
+  }
+  30% {
+    content: "Load";
+  }
+  40% {
+    content: "Loadi";
+  }
+  50% {
+    content: "Loadin";
+  }
+  60% {
+    content: "Loading";
+  }
+  70% {
+    content: "Loading.";
+  }
+  80% {
+    content: "Loading..";
+  }
+  90% {
+    content: "Loading...";
+  }
+  100% {
+    content: "Loading....";
+  }
+}
