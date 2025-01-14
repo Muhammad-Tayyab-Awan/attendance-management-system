@@ -56,10 +56,10 @@ const ViewAllLeavesAdmin = () => {
   return (
     <>
       {data.length || data.length > 0 ? (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto my-4">
           <Table className="mx-auto w-[90%]">
             <Table.Head>
-              <Table.HeadCell>Id</Table.HeadCell>
+              <Table.HeadCell>UserId</Table.HeadCell>
               <Table.HeadCell>Start Date</Table.HeadCell>
               <Table.HeadCell>End Date</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
@@ -73,8 +73,7 @@ const ViewAllLeavesAdmin = () => {
                     key={leave._id}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {/* {(index + 1).toString().padStart(2, "0")} */}
-                      {leave._id}
+                      {leave.userId._id}
                     </Table.Cell>
                     <Table.Cell>
                       {new Date(leave.startDate).toDateString()}
