@@ -5,6 +5,7 @@ import { Button, Table } from "flowbite-react";
 import AddUser from "./AddUser";
 
 const ViewAllUsers = () => {
+  const [processing, setProcessing] = React.useState(false);
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
@@ -23,6 +24,8 @@ const ViewAllUsers = () => {
   }
 
   const handleDeleteClick = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
     const id = e.target.parentElement.id;
     const response = await userApi.deleteUserById(id);
     if (response.success) {
@@ -31,9 +34,12 @@ const ViewAllUsers = () => {
     } else {
       toast.error(response.error);
     }
+    setProcessing(false);
   };
 
   const handleVerifyClick = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
     const id = e.target.parentElement.id;
     const response = await userApi.verifyUserById(id);
     if (response.success) {
@@ -48,9 +54,12 @@ const ViewAllUsers = () => {
     } else {
       toast.error(response.error);
     }
+    setProcessing(false);
   };
 
-  const handleDeletion = async () => {
+  const handleDeletion = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
     const response = await userApi.deleteAllUsers();
     if (response.success) {
       toast.success(response.msg);
@@ -64,6 +73,7 @@ const ViewAllUsers = () => {
     } else {
       toast.error(response.error);
     }
+    setProcessing(false);
   };
 
   return (
@@ -107,6 +117,8 @@ const ViewAllUsers = () => {
                         <Button
                           size="xs"
                           id={user._id}
+                          color="success"
+                          isProcessing={processing}
                           onClick={handleVerifyClick}
                         >
                           Verify Now
@@ -118,6 +130,7 @@ const ViewAllUsers = () => {
                         size="xs"
                         color="failure"
                         id={user._id}
+                        isProcessing={processing}
                         onClick={handleDeleteClick}
                       >
                         Delete
@@ -135,7 +148,7 @@ const ViewAllUsers = () => {
         </div>
       )}
       <div>
-        <Button onClick={handleDeletion} className="mx-auto" color="failure">
+        <Button onClick={handleDeletion} isProcessing={processing} className="mx-auto" color="failure">
           Delete All Users
         </Button>
       </div>
