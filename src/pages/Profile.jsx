@@ -7,11 +7,11 @@ import { useEffect } from "react";
 import { useRoleContext } from "../context/RoleContext";
 import toast from "react-hot-toast";
 import { UpdateProfile } from "../components/UpdateProfile";
-import { Spinner } from "flowbite-react";
 import { UpdateProfileImage } from "../components/UpdateProfileImage";
 import gradeApi from "../api/gradeApi";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { DeleteConfirmationModal } from "../components/DeleteConfirmationModal";
+import Loader from "../utils/Loader";
 
 function Profile() {
   const [grades, setGrades] = useState({});
@@ -86,11 +86,7 @@ function Profile() {
 
   return (
     <>
-      {isLoading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-blue-950 text-white">
-          <Spinner size="xl" />
-        </div>
-      )}
+      {isLoading && <Loader/>}
       <NavBar />
       <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center gap-4 py-4">
         <div className="relative flex w-[80%] max-w-6xl flex-col items-center gap-3 rounded-lg bg-slate-500 p-3 sm:flex-row">

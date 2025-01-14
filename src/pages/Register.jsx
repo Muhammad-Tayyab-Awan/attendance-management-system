@@ -5,7 +5,7 @@ import { NavBar } from "../components/Navbar";
 import { useRoleContext } from "../context/RoleContext";
 import authApi from "../api/authApi";
 import RegisterForm from "../components/RegisterForm";
-import { Spinner } from "flowbite-react";
+import Loader from "../utils/Loader";
 
 function Register() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,14 +25,10 @@ function Register() {
   }, []);
   return (
     <>
-      {isLoading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-blue-950 text-white">
-          <Spinner size="xl" />
-        </div>
-      )}
+      {isLoading && <Loader />}
       <NavBar />
       <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
-      <RegisterForm />
+        <RegisterForm />
       </div>
     </>
   );

@@ -4,8 +4,9 @@ import { NavBar } from "../components/Navbar";
 import authApi from "../api/authApi";
 import { useEffect, useState } from "react";
 import { useRoleContext } from "../context/RoleContext";
-import { Button, Spinner } from "flowbite-react";
+import { Button } from "flowbite-react";
 import toast from "react-hot-toast";
+import Loader from "../utils/Loader";
 
 function Logout() {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,11 +41,7 @@ function Logout() {
 
   return (
     <>
-      {isLoading && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-blue-950 text-white">
-          <Spinner size="xl" />
-        </div>
-      )}
+      {isLoading && <Loader />}
       <NavBar />
       Are you confirm to logout?
       <Button size="sm" onClick={handleSubmit}>
