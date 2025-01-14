@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import toast from "react-hot-toast";
-import { Table } from "flowbite-react";
+import { Button, Table } from "flowbite-react";
 import leaveApi from "../api/leaveApi";
 
 const ViewAllLeavesAdmin = () => {
@@ -25,29 +25,40 @@ const ViewAllLeavesAdmin = () => {
   const handleApproveClick = async (e) => {
     e.preventDefault();
     setProcessing(true);
-    const id = e.target.id;
+    const id = e.target.parentElement.id;
     const response = await leaveApi.reviewLeave(id, "approved");
     if (response.success) {
       toast.success(response.msg);
-      leaveApi.getOverallLeaveOfUser().then((res) => {
+      leaveApi.getAllLeavesOfUsers().then((res) => {
         if (res.success) {
-          setData({ nodes: res.allLeaves });
-          setProcessing(false)
+          setData(res.allLeaves);
+          setProcessing(false);
         } else {
+          setData([]);
           toast.error(res.error);
         }
       });
     } else {
       toast.error(response.error);
-      setProcessing(false)
+      setProcessing(false);
     }
   };
 
   const handleRejectClick = async (e) => {
-    const id = e.target.id;
+    e.preventDefault();
+    setProcessing(true);
+    const id = e.target.parentElement.id;
     const response = await leaveApi.reviewLeave(id, "rejected");
     if (response.success) {
       toast.success(response.msg);
+      leaveApi.getOverallLeaveOfUser().then((res) => {
+        if (res.success) {
+          setData(res.allLeaves);
+          setProcessing(false);
+        } else {
+          toast.error(res.error);
+        }
+      });
     } else {
       toast.error(response.error);
     }
@@ -55,8 +66,8 @@ const ViewAllLeavesAdmin = () => {
 
   return (
     <>
-      {data.length || data.length > 0 ? (
-        <div className="overflow-x-auto my-4">
+      {data && data.length > 0 ? (
+        <div className="my-4 overflow-x-auto">
           <Table className="mx-auto w-[90%]">
             <Table.Head>
               <Table.HeadCell>UserId</Table.HeadCell>
@@ -65,7 +76,7 @@ const ViewAllLeavesAdmin = () => {
               <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
-            <Table.Body  className="divide-y">
+            <Table.Body className="divide-y">
               {data.map((leave) => {
                 return (
                   <Table.Row
@@ -87,22 +98,24 @@ const ViewAllLeavesAdmin = () => {
                     <Table.Cell>
                       {leave.status === "pending" ? (
                         <div className="flex w-full items-center justify-evenly">
-                          <button
+                          <Button
                             id={leave._id}
                             onClick={handleApproveClick}
-                            disabled={processing}
-                            className="rounded-md bg-white px-2 py-1 font-semibold text-black"
+                            isProcessing={processing}
+                            size="xs"
+                            color="success"
                           >
                             Approve
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             id={leave._id}
                             onClick={handleRejectClick}
-                            disabled={processing}
-                            className="rounded-md bg-white px-2 py-1 font-semibold text-black"
+                            isProcessing={processing}
+                            color="failure"
+                            size="xs"
                           >
                             Reject
-                          </button>
+                          </Button>
                         </div>
                       ) : (
                         `${capitalizeFirstLetter(leave.status)}`
@@ -115,7 +128,9 @@ const ViewAllLeavesAdmin = () => {
           </Table>
         </div>
       ) : (
-        <div className="mx-auto w-[80%] py-2 text-xl text-center">No leave record found</div>
+        <div className="mx-auto w-[80%] py-2 text-center text-xl">
+          No leave record found
+        </div>
       )}
     </>
   );
