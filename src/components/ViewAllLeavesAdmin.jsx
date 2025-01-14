@@ -1,84 +1,30 @@
 import * as React from "react";
 
-import { CompactTable } from "@table-library/react-table-library/compact";
-import { useTheme } from "@table-library/react-table-library/theme";
-
 import toast from "react-hot-toast";
-import { Button } from "flowbite-react";
+import { Table } from "flowbite-react";
 import leaveApi from "../api/leaveApi";
 
 const ViewAllLeavesAdmin = () => {
-  const [data, setData] = React.useState({
-    nodes: [],
-  });
+  const [data, setData] = React.useState([]);
+  const [processing, setProcessing] = React.useState(false);
 
   React.useEffect(() => {
     leaveApi.getAllLeavesOfUsers().then((res) => {
       if (res.success) {
-        setData({ nodes: res.allLeaves });
+        setData(res.allLeaves);
+      } else {
+        setData([]);
       }
     });
   }, []);
-
-  const [ids, setIds] = React.useState([]);
-
-  const handleExpand = (item) => {
-    if (ids.includes(item._id)) {
-      setIds(ids.filter((id) => id !== item._id));
-    } else {
-      setIds(ids.concat(item._id));
-    }
-  };
-
-  const colorTheme = {
-    BaseRow: `
-        color: #141414;
-      `,
-    Row: `
-        &:hover {
-          color: orange;
-        }
-
-        cursor: pointer;
-      `,
-  };
-
-  const stripedTheme = {
-    BaseRow: `
-        font-size: 14px;
-      `,
-    HeaderRow: `
-        background-color: #eaf5fd;
-      `,
-    Row: `
-        &:nth-of-type(odd) {
-          background-color: #d2e9fb;
-        }
-
-        &:nth-of-type(even) {
-          background-color: #eaf5fd;
-        }
-      `,
-  };
-
-  const marginTheme = {
-    BaseCell: `
-        margin: 9px;
-        padding: 11px;
-      `,
-  };
-
-  const theme = useTheme([colorTheme, stripedTheme, marginTheme]);
 
   function capitalizeFirstLetter(val) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
 
-  const ROW_PROPS = {
-    onClick: handleExpand,
-  };
-
   const handleApproveClick = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
     const id = e.target.id;
     const response = await leaveApi.reviewLeave(id, "approved");
     if (response.success) {
@@ -86,12 +32,14 @@ const ViewAllLeavesAdmin = () => {
       leaveApi.getOverallLeaveOfUser().then((res) => {
         if (res.success) {
           setData({ nodes: res.allLeaves });
+          setProcessing(false)
         } else {
           toast.error(res.error);
         }
       });
     } else {
       toast.error(response.error);
+      setProcessing(false)
     }
   };
 
@@ -105,90 +53,70 @@ const ViewAllLeavesAdmin = () => {
     }
   };
 
-  const ROW_OPTIONS = {
-    renderAfterRow: (item) => (
-      <>
-        {ids.includes(item._id) && (
-          <tr style={{ display: "flex", gridColumn: "1 / -1" }}>
-            <td style={{ flex: "1" }}>
-              <ul
-                style={{
-                  margin: "0",
-                  padding: "0",
-                  backgroundColor: "#e0e0e0",
-                }}
-              >
-                <li>
-                  <strong>Status:</strong>
-                  {item.status !== "pending" ? (
-                    capitalizeFirstLetter(item.status)
-                  ) : (
-                    <>
-                      <Button
-                        size="xs"
-                        id={item._id}
-                        onClick={handleRejectClick}
-                      >
-                        Reject
-                      </Button>
-                      <Button
-                        size="xs"
-                        id={item._id}
-                        onClick={handleApproveClick}
-                      >
-                        Approve
-                      </Button>
-                    </>
-                  )}
-                </li>
-              </ul>
-            </td>
-          </tr>
-        )}
-      </>
-    ),
-  };
-
-  const COLUMNS = [
-    {
-      label: "User Id",
-      renderCell: (item) => item.userId._id,
-      style: { width: "150px" },
-    },
-    {
-      label: "Start Date",
-      renderCell: (item) => new Date(item.startDate).toUTCString(),
-      style: { width: "150px" },
-    },
-    {
-      label: "End Date",
-      renderCell: (item) => new Date(item.endDate).toUTCString(),
-      style: { width: "250px" },
-    },
-    {
-      label: "Reason",
-      renderCell: (item) => capitalizeFirstLetter(item.reason),
-      style: { width: "100px" },
-    },
-    {
-      label: "Status",
-      renderCell: (item) => capitalizeFirstLetter(item.status),
-      style: { width: "120px" },
-    },
-  ];
-
   return (
     <>
-      {data.nodes.length > 0 ? (
-        <CompactTable
-          columns={COLUMNS}
-          rowProps={ROW_PROPS}
-          rowOptions={ROW_OPTIONS}
-          data={data}
-          theme={theme}
-        />
+      {data.length || data.length > 0 ? (
+        <div className="overflow-x-auto">
+          <Table className="mx-auto w-[90%]">
+            <Table.Head>
+              <Table.HeadCell>Id</Table.HeadCell>
+              <Table.HeadCell>Start Date</Table.HeadCell>
+              <Table.HeadCell>End Date</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
+            </Table.Head>
+            <Table.Body  className="divide-y">
+              {data.map((leave) => {
+                return (
+                  <Table.Row
+                    className="bg-slate-300 dark:border-gray-700 dark:bg-gray-800"
+                    key={leave._id}
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {/* {(index + 1).toString().padStart(2, "0")} */}
+                      {leave._id}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {new Date(leave.startDate).toDateString()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {new Date(leave.endDate).toDateString()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {capitalizeFirstLetter(leave.status)}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {leave.status === "pending" ? (
+                        <div className="flex w-full items-center justify-evenly">
+                          <button
+                            id={leave._id}
+                            onClick={handleApproveClick}
+                            disabled={processing}
+                            className="rounded-md bg-white px-2 py-1 font-semibold text-black"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            id={leave._id}
+                            onClick={handleRejectClick}
+                            disabled={processing}
+                            className="rounded-md bg-white px-2 py-1 font-semibold text-black"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      ) : (
+                        `${capitalizeFirstLetter(leave.status)}`
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table.Body>
+          </Table>
+        </div>
       ) : (
-        <h1>No Leaves Found</h1>
+        <div>No leaves found</div>
       )}
     </>
   );
