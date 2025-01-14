@@ -97,7 +97,7 @@ function Profile() {
           <div className="relative">
             <UpdateProfileImage user={userData} setUser={setUserData} />
             <Icon
-              icon="lucide:edit"
+              icon="mingcute:delete-fill"
               onClick={handleImageDelete}
               width="1.2em"
               height="1.2em"
