@@ -38,7 +38,6 @@ const ViewAllAttendanceAdmin = () => {
                     key={attendance._id}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {/* {(index + 1).toString().padStart(2, "0")} */}
                       {attendance.userId}
                     </Table.Cell>
                     <Table.Cell>
