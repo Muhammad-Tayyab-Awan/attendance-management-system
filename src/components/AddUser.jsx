@@ -107,7 +107,7 @@ function AddUser() {
 
   return (
     <form
-      className="flex max-w-md flex-col gap-4 bg-slate-300 dark:bg-slate-950 mx-auto"
+      className="flex max-w-md flex-col gap-4 mx-auto p-4"
       onSubmit={handleSubmit(submitCredentials)}
       noValidate
     >
