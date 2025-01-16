@@ -40,7 +40,7 @@ function SubmitTodayLeave() {
 
   return (
     <>
-      <div className="mx-auto max-w-md rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
+      <div className="mx-auto my-4 max-w-md rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
         <form
           noValidate
           className="space-y-6"
@@ -66,11 +66,7 @@ function SubmitTodayLeave() {
               </option>
             </Select>
           </div>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full"
-          >
+          <Button type="submit" isProcessing={isSubmitting} className="w-full">
             Submit
           </Button>
         </form>
