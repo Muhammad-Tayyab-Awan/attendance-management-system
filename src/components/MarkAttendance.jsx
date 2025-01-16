@@ -10,7 +10,7 @@ function MarkAttendance() {
   const [processing, setProcessing] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  const {marked,status,setMarked, setStatus} = useAttendanceContext()
+  const { marked, status, setMarked, setStatus } = useAttendanceContext();
 
   useEffect(() => {
     const interval = setInterval(() => {
