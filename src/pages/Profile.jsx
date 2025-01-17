@@ -12,6 +12,7 @@ import gradeApi from "../api/gradeApi";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { DeleteConfirmationModal } from "../components/DeleteConfirmationModal";
 import Loader from "../utils/Loader";
+import { PieChart } from "@mui/x-charts";
 
 function Profile() {
   const [grades, setGrades] = useState({});
@@ -127,36 +128,72 @@ function Profile() {
             <DeleteConfirmationModal />
           </div>
         </div>
-
+        {role === "user" && (
+          <div className="h-48 w-[90%] max-w-md rounded-md bg-white shadow-md shadow-indigo-600">
+            <PieChart
+              series={[
+                {
+                  arcLabel: (item) => `${item.value}`,
+                  data: [
+                    {
+                      id: 0,
+                      value: grades.totalAbsents,
+                      label: "Absents",
+                      color: "#ff5500",
+                    },
+                    {
+                      id: 1,
+                      value: grades.totalPresents,
+                      label: "Presents",
+                      color: "#55ff00",
+                    },
+                    {
+                      id: 2,
+                      value: grades.totalLeaves,
+                      label: "Leaves",
+                      color: "yellow",
+                    },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        )}
         {role === "user" && (
           <div className="mx-auto w-full max-w-xs rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-            <h1 className="mb-4 text-xl font-semibold text-blue-600 dark:text-blue-400">
+            <h1 className="mb-4 text-center text-xl font-semibold text-blue-600 dark:text-blue-400">
               Grades
             </h1>
-            <div className="space-y-2">
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Grade:</span> {grades.grade}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Total Days:</span>{" "}
-                {grades.totalDays}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Presents:</span>{" "}
-                {grades.totalPresents}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Absents:</span>{" "}
-                {grades.totalAbsents}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Leaves:</span>{" "}
-                {grades.totalLeaves}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Percentage:</span>{" "}
-                {grades.percentage}%
-              </p>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center justify-around">
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Total Days:</span>{" "}
+                  {grades.totalDays}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Leaves:</span>{" "}
+                  {grades.totalLeaves}
+                </p>
+              </div>
+              <div className="flex items-center justify-around">
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Presents:</span>{" "}
+                  {grades.totalPresents}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Absents:</span>{" "}
+                  {grades.totalAbsents}
+                </p>
+              </div>
+              <div className="flex items-center justify-around">
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Grade:</span> {grades.grade}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Percentage:</span>{" "}
+                  {grades.percentage}%
+                </p>
+              </div>
             </div>
           </div>
         )}
