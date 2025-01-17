@@ -34,7 +34,7 @@ const ViewAttendanceUser = () => {
                 return (
                   <Table.Row
                     key={attendance._id}
-                    className="bg-slate-300 dark:border-gray-700 dark:bg-gray-800"
+                    className="bg-slate-300 dark:bg-gray-800"
                   >
                     <Table.Cell>
                       {new Date(attendance.date).toDateString()}

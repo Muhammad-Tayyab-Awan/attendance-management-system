@@ -9,17 +9,21 @@ function UserDashboard() {
   return (
     <>
       <AttendanceProvider>
-        <Tabs aria-label="Default tabs" variant="default" className="w-[70vw]">
-          <Tabs.Item title="Mark Attendance" active>
+        <Tabs
+          aria-label="Default tabs"
+          variant="fullWidth"
+          className="mx-auto w-[95%] max-w-lg rounded-lg"
+        >
+          <Tabs.Item title="M A" active>
             <MarkAttendance />
           </Tabs.Item>
-          <Tabs.Item title="Submit Leave">
+          <Tabs.Item title="S L">
             <SubmitLeave />
           </Tabs.Item>
-          <Tabs.Item title="Attendance Record">
+          <Tabs.Item title="A R">
             <ViewAttendanceUser />
           </Tabs.Item>
-          <Tabs.Item title="Leave Record">
+          <Tabs.Item title="L R">
             <ViewLeaveUser />
           </Tabs.Item>
         </Tabs>
