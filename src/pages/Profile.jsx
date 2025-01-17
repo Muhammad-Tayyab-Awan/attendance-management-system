@@ -86,10 +86,10 @@ function Profile() {
 
   return (
     <>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
       <NavBar />
       <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center gap-4 py-4">
-        <div className="relative flex w-[80%] max-w-6xl flex-col items-center gap-3 rounded-lg bg-slate-500 p-3 sm:flex-row">
+        <div className="relative flex w-[95%] max-w-xl flex-col items-center gap-3 rounded-lg bg-slate-500 p-3">
           <div className="relative">
             <UpdateProfileImage user={userData} setUser={setUserData} />
             <Icon
@@ -105,14 +105,20 @@ function Profile() {
               className="h-36 w-36 rounded-full"
             />
           </div>
-          <div className="text-slate-100">
+          <div className="flex flex-col items-center justify-center text-slate-100">
             <p className="text-lg font-semibold">{userData.name}</p>
             <p className="text-sm">{userData.username}</p>
-            <p className="text-sm">Email : {userData.email}</p>
+            <a
+              className="text-sm"
+              href={`mailto:${userData.email}`}
+              target="_blank"
+            >
+              {userData.email}
+            </a>
             <p className="text-sm">Gender : {userData.gender}</p>
             <p className="text-sm">Address : {userData.address}</p>
           </div>
-          <div className="bottom-3 right-3 flex items-center justify-center gap-6 sm:absolute">
+          <div className="right-3 top-3 flex items-center justify-center gap-6 sm:absolute">
             <UpdateProfile
               userData={userFullData}
               setNewData={setUserFullData}
