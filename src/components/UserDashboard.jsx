@@ -15,15 +15,25 @@ function UserDashboard() {
           className="mx-auto w-[95%] max-w-lg rounded-lg"
         >
           <Tabs.Item title="M A" active>
+            <p className="mb-3 text-center text-lg font-semibold">
+              Mark Attendance
+            </p>
             <MarkAttendance />
           </Tabs.Item>
           <Tabs.Item title="S L">
+            <p className="mb-3 text-center text-lg font-semibold">
+              Submit Leave
+            </p>
             <SubmitLeave />
           </Tabs.Item>
           <Tabs.Item title="A R">
+            <p className="mb-3 text-center text-lg font-semibold">
+              View Attendance
+            </p>
             <ViewAttendanceUser />
           </Tabs.Item>
           <Tabs.Item title="L R">
+            <p className="mb-3 text-center text-lg font-semibold">View Leave</p>
             <ViewLeaveUser />
           </Tabs.Item>
         </Tabs>
